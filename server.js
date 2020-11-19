@@ -17,6 +17,7 @@ const app = express();
 //import routes here
 const users = require("./routes/users");
 const profile = require("./routes/profile");
+const post = require("./routes/post");
 app.use(cors());
 
 // passport middleware
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/users", users);
 app.use("/api/profile", profile);
+app.use("/api/posts", post);
 mongoose
   .connect(process.env.DB_CONNECT, {
     useNewUrlParser: true,
