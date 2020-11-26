@@ -133,7 +133,7 @@ exports.deleteComment = async (req, res, next) => {
     const comment = post.comments.find(
       (comment) => comment.id === req.params.comment_id
     );
-    console.log(comment);
+    // console.log(comment);
     // make sure comment exists
     if (!comment) {
       return res.status(404).json({ msg: "comment does not exists" });

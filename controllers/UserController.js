@@ -41,12 +41,26 @@ exports.register = async (req, res, next) => {
     // hash the password using gen salt
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
-    let saveUser = await user.save();
-
+    await user.save();
+    // let saveUser = await user.save();
+    const payload = {
+      user: {
+        id: user.id,
+      },
+    };
+    jwt.sign(
+      payload,
+      process.env.TOKEN_SECRET,
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) throw err;
+        return res.json({ token });
+      }
+    );
     // send user data without password
-    let safeUser = { ...saveUser._doc };
-    delete safeUser.password;
-    return res.status(201).json(safeUser);
+    // let safeUser = { ...saveUser._doc };
+    // delete safeUser.password;
+    // return res.status(201).json(safeUser);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send("Server error");
